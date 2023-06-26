@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block metadescription %}
+  We have variety of Places....
+{% endblock %}
+{% block title %}
+  Search
+{% endblock %}
+
+{% block content %}
+<script src="https://kit.fontawesome.com/a076d05399.js"></script>
+<div>
+    <h3 class="text-center text-bold my_search_text">You have searched for : <span class="text-success">"{{query}}"</span> </h3>
+</div>
+<div class="container">
+    <div class="row mx_auto">
+        {% for place in places %}
+        <div class="my_bottom_margin col-9 col-sm-12 col-md-3">
+            <div class="card " style="padding:10px;" id="dis-card" >
+                 <a href="{% url 'travel:detail' place.id %}"><img class="card-img-top my_image" src="{{place.image1.url}}" alt="{{place.name}}" width="250px" height="250px"></a>
+                <div class="card-body">
+                    <h5 class="card-title text-success">{{place.name}}</h5>
+                    <p class="card-text" id="dis-card-text">{{place.city}}</p>
+                </div>
+            </div>
+        </div>
+
+        {% empty %}
+        <div class="row mx-auto">
+            <h3 class="text-center text-danger my_search_text">No result found.</h3>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+<br>
+<br>
+<div class="footer navbar-fixed-bottom my_footer">
+    <p class="text-center">&copy; TravelLOG pvt ltd. All Rights Reserved</p>
+</div>
+{% endblock %}

@@ -1,0 +1,64 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-dark">
+  <div class="container-fluid">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+        {% if user.is_authenticated %}
+        <li class="nav-item">
+          <a class="nav-link text-white" href="{% url 'travel:allPlace' %}">Home</a>
+        </li>
+        {% else %}
+        <li class="nav-item">
+          <a class="nav-link text-white" href="{% url 'login:home' %}">TravelLOG</a>
+        </li>
+        {% endif %}
+
+        <li class="nav-item dropdown {% if 'travel' in request.path %} active {% endif %}">
+          <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Districts
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            {% for cat in links %}
+            <li><a class="dropdown-item bg-dark text-white" href="{{ cat.get_url }}">{{ cat.name }}</a></li>
+             {% endfor %}
+          </ul>
+      </ul>
+
+      {% if user.is_authenticated %}
+      <li><a href="{% url 'login:logout' %}" class="btn btn-simple"><button class="btn btn-warning">Log Out</button></a></li>
+
+      <div class="dropdown">
+        <button class="btn btn-light dropdown-toggle"  type="button" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span>   Profile
+          <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu bg-dark">
+          <li class="dropdown-header text-white">Username</li>
+          <li><a href="#" class="text-white">{{ user.username }}</a></li>
+          <li class="dropdown-header text-white">Name</li>
+          <li><a href="#" class="text-white">{{ user.first_name }}</a></li>
+          <li class="dropdown-header text-white">Email</li>
+          <li><a href="#" class="text-white">{{ user.email }}</a></li>
+          <li class="divider"></li>
+          <li class="fa-solid fa-pen-to-square"><a href="{% url 'login:editprofile' user.pk %}" class="text-white">Edit Profile</a></li>
+        </ul>
+      </div>
+      </ul>
+    </div>
+
+      {% else %}
+      <li><a href="{% url 'login:signup' %}" class="btn btn-success"><span class="glyphicon glyphicon-user"></span>   Register</a></li>
+      <li><a href="{% url 'login:login' %}" class="btn btn-simple"><button class="btn btn-success"><span class="glyphicon glyphicon-log-in"></span>   Log In</button></a></li>
+      {% endif %}
+
+
+      <form class="d-flex" method="get" action="{% url 'search:searchResult' %}">
+        <input class="form-control me-2" type="search" placeholder="Search Place" aria-label="Search" name="q">
+        <button class="btn btn-outline-success" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+      </form>
+    </div>
+  </div>
+</nav>
